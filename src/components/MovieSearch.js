@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const MovieSearch = () => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -6,14 +6,14 @@ const MovieSearch = () => {
     const [errorMessage, setErrorMessage] = useState("");
 
     const fetchMovies = async () => {
-        const apiKey = '99eb9fd1';
+        const apiKey = "99eb9fd1";
         const url = `http://www.omdbapi.com/?apikey=${apiKey}&s=${searchTerm}`;
 
         try {
             const response = await fetch(url);
             const data = await response.json();
 
-            if (data.Response === 'True') {
+            if (data.Response === "True") {
                 setMovies(data.Search);
                 setErrorMessage(""); // Clear error message if the search is successful
             } else {
@@ -26,10 +26,8 @@ const MovieSearch = () => {
         }
     };
 
-    
-
-    const handleSearch = () => {
-        e.preventDefault();
+    const handleSearch = (e) => {
+        e.preventDefault(); // Prevent form submission
         if (searchTerm.trim() === "") {
             setErrorMessage("Please enter a movie name.");
             setMovies([]);
@@ -39,33 +37,52 @@ const MovieSearch = () => {
     };
 
     return (
-        
         <div style={{ textAlign: "center", marginTop: "20px" }}>
-            <form>
-            <input 
-                type="text" 
-                placeholder="Search a movie" 
-                value={searchTerm} 
-                onChange={(e) => setSearchTerm(e.target.value)}
-                style={{ padding: "10px", width: "300px" }}
-            />
-            <button 
-                id="search" 
-                data-testid="search-button"
-                onClick={handleSearch} 
-                style={{ padding: "10px 20px", marginLeft: "10px" }}
-            >
-                Search
-            </button>
+            <form id="form" onSubmit={handleSearch}>
+                <input
+                    type="text"
+                    placeholder="Search a movie"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    style={{ padding: "10px", width: "300px" }}
+                />
+                <button
+                    id="search"
+                    data-testid="search-button"
+                    type="submit"
+                    style={{ padding: "10px 20px", marginLeft: "10px" }}
+                >
+                    Search
+                </button>
+            </form>
 
-            {errorMessage && <div className="error" data-testid="error-message" style={{ color: "red", marginTop: "20px" }}>{errorMessage}</div>}
+            {errorMessage && (
+                <div
+                    className="error"
+                    data-testid="error-message"
+                    style={{ color: "red", marginTop: "20px" }}
+                >
+                    {errorMessage}
+                </div>
+            )}
 
             <div style={{ marginTop: "20px" }}>
                 {movies.length > 0 && (
-                    <ul data-testid="movie-list" style={{ listStyle: "none", padding: 0 }}>
+                    <ul
+                        data-testid="movie-list"
+                        style={{ listStyle: "none", padding: 0 }}
+                    >
                         {movies.map((movie) => (
                             <li key={movie.imdbID} style={{ marginBottom: "20px" }}>
-                                <img src={movie.Poster} alt={movie.Title} style={{ width: "150px", height: "auto" }} />
+                                <img
+                                    src={
+                                        movie.Poster !== "N/A"
+                                            ? movie.Poster
+                                            : "https://via.placeholder.com/150"
+                                    }
+                                    alt={movie.Title}
+                                    style={{ width: "150px", height: "auto" }}
+                                />
                                 <h3>{movie.Title}</h3>
                                 <p>Year: {movie.Year}</p>
                             </li>
@@ -73,7 +90,6 @@ const MovieSearch = () => {
                     </ul>
                 )}
             </div>
-            </form>
         </div>
     );
 };
