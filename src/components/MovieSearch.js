@@ -29,6 +29,7 @@ const MovieSearch = () => {
     
 
     const handleSearch = () => {
+        e.preventDefault();
         if (searchTerm.trim() === "") {
             setErrorMessage("Please enter a movie name.");
             setMovies([]);
@@ -50,17 +51,18 @@ const MovieSearch = () => {
             />
             <button 
                 id="search" 
+                data-testid="search-button"
                 onClick={handleSearch} 
                 style={{ padding: "10px 20px", marginLeft: "10px" }}
             >
                 Search
             </button>
 
-            {errorMessage && <div className="error" style={{ color: "red", marginTop: "20px" }}>{errorMessage}</div>}
+            {errorMessage && <div className="error" data-testid="error-message" style={{ color: "red", marginTop: "20px" }}>{errorMessage}</div>}
 
             <div style={{ marginTop: "20px" }}>
                 {movies.length > 0 && (
-                    <ul style={{ listStyle: "none", padding: 0 }}>
+                    <ul data-testid="movie-list" style={{ listStyle: "none", padding: 0 }}>
                         {movies.map((movie) => (
                             <li key={movie.imdbID} style={{ marginBottom: "20px" }}>
                                 <img src={movie.Poster} alt={movie.Title} style={{ width: "150px", height: "auto" }} />
