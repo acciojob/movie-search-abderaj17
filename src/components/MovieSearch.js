@@ -38,7 +38,9 @@ const MovieSearch = () => {
     };
 
     return (
+        
         <div style={{ textAlign: "center", marginTop: "20px" }}>
+            <form>
             <input 
                 type="text" 
                 placeholder="Search a movie" 
@@ -69,6 +71,7 @@ const MovieSearch = () => {
                     </ul>
                 )}
             </div>
+            </form>
         </div>
     );
 };
